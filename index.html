@@ -80,9 +80,7 @@
       width: 120px;
       font-size: 1.3em;
     }
-    .slider {
 
-    }
   </style>
 </head>
 
@@ -96,7 +94,7 @@
   <footer>
     <div class="container">
       <ul>
-        <li>Map authored by <a href="https://courtneysimonse.github.io/" target="_blank">Courtney Simonse</a></li>
+        <li>Map authored by <a href="https://artemismaps.com" target="_blank">Courtney Simonse</a></li>
         <li>data sourced from <a target="_blank" href="https://www.penguinmap.com">Mapping Application for Penguin Populations and Projected Dynamics</a> where you can learn to be a penguin detective</li>
         <li>inspired by the recent <a href="https://www.smithsonianmag.com/smart-news/adelie-penguin-super-colony-found-after-scientists-look-space-images-180968326/" target="_blank">super-colony discovery</a></li>
       </ul>
@@ -121,7 +119,7 @@
       }
 
       // define radius generator
-      var radius = d3.scaleSqrt().domain([0, 3e4]).range([1, 30])
+      var radius = d3.scaleSqrt().domain([0, 35000]).range([1, 30])
 
       // define color generator
       var color = d3.scaleOrdinal(d3.schemeDark2)
@@ -135,6 +133,8 @@
         // data is array of our two datasets
         var antarcticData = data[0],
           countsData = data[1]
+
+        console.log(countsData);
 
         // define width and height of our SVG
         var width = 960,
@@ -180,9 +180,9 @@
         // select the map element
         d3.select("#map")
         .on("mousemove", function (event) { // when mouse moves over it
-        // update the position of the tooltip
-        tooltip.style("left", (d3.event.pageX + 10) + "px")
-        .style("top", (d3.event.pageY - 30) + "px");
+          // update the position of the tooltip
+          tooltip.style("left", (d3.event.pageX + 10) + "px")
+          .style("top", (d3.event.pageY - 30) + "px");
         })
 
         // add counts data to svg
@@ -193,10 +193,13 @@
           }))
           .enter().append("circle")  // enter and append a circle element
           .filter(function(d) {
-            if (d.common_name = "emperor penguin") {
+            // console.log(d);
+            if (d.common_name == "emperor penguin") {
               if (d.count_type != "None") {
+                console.log(d);
                 return d
               }
+            } else {
             }
           })
           .attr("cx", function (d) {  // define the x position
@@ -236,7 +239,7 @@
           .attr("class", "legend")  // add a class (for CSS)
           .attr("transform", "translate(" + (width - 50) + "," + (height - 20) + ")")
           .selectAll("g")  // select all new g elements
-          .data([3e4, 4000])  // apply two numbers (approx median/max)
+          .data([35000, 6000])  // apply two numbers (approx median/max)
           .enter().append("g");  // enter and append the two new g elements
 
         // place the circles vertically and apply radius
